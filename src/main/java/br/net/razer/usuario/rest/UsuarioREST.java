@@ -2,11 +2,14 @@ package br.net.razer.usuario.rest;
 
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.net.razer.usuario.model.Usuario;
@@ -26,6 +29,18 @@ public class UsuarioREST {
     public Usuario getUserById( @PathVariable("id") int id){
         Usuario user = lista.stream().filter(usu -> usu.getId() == id).findAny().orElse(null);
         return user;
+    }
+
+    @PostMapping("/usuario")
+    public Usuario inserirUsuario(@RequestBody Usuario usuario){
+        Usuario user = lista.stream().max(Comparator.comparing(Usuario::getId)).orElse(null);
+        if (user == null) user.setId(1);
+        else 
+            user.setId(user.getId() + 1);
+        lista.add(user);    
+
+        return user;
+        
     }
 
     static {
