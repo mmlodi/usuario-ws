@@ -4,7 +4,10 @@ package br.net.razer.usuario.rest;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,16 +16,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.net.razer.usuario.model.Usuario;
+import br.net.razer.usuario.repository.UsuarioRepository;
 
 @CrossOrigin
 @RestController
 public class UsuarioREST {
+    
+    @Autowired
+    private UsuarioRepository repo;
+
+    @Autowired
+    private ModelMapper mapper;
+
     public static List<Usuario> lista = new ArrayList<>();
     
     //metodos
     @GetMapping("/usuarios")
-    public List<Usuario> getAllUsers(){
-        return lista;
+    public List<UsuarioDTO> listarTodos() {
+        List<Usuario> lista = repo.findAll();
+
+        // Converte lista de Entity para lista DTO
+        return lista.stream().map(e -> mapper.map(e,UsuarioDTO.class))
+        .collect(Collectors.toList());
     }
 
     @GetMapping("/usuarios/{id}")
@@ -31,22 +46,18 @@ public class UsuarioREST {
         return user;
     }
 
-    @PostMapping("/usuario")
-    public Usuario inserirUsuario(@RequestBody Usuario usuario){
-        Usuario user = lista.stream().max(Comparator.comparing(Usuario::getId)).orElse(null);
-        if (user == null) user.setId(1);
-        else 
-            user.setId(user.getId() + 1);
-        lista.add(user);    
-
-        return user;
+    @PostMapping("/usuarios")
+    UsuarioDTO inserir(@RequestBody  UsuarioDTO usuario) {
         
+        // salva a Entidade convertida do DTO
+        repo.save(mapper.map(usuario, Usuario.class));
+        
+        // busca o usuário inserido
+        Usuario usu = repo.findByLogin(usuario.getLogin());
+        // retorna o DTO equivalente à entidade
+        return mapper.map(usu, UsuarioDTO.class);
+
     }
 
-    static {
-        lista.add(new Usuario(1, "administr", "admin", "admin", "ADMIN"));
-        lista.add(new Usuario(2, "gerent", "gerent", "gerent", "GERENT"));
-        lista.add(new Usuario(3, "function", "func", "func", "func"));
-    }
 
 }
