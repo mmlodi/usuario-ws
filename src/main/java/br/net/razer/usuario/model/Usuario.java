@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 public class Usuario  implements Serializable {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "idUsuario")
     private int id;
     @Column(name = "nomeUsuario")

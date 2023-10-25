@@ -1,7 +1,5 @@
 package br.net.razer.usuario.rest;
 
-import java.io.Serializable;
-
 public class UsuarioDTO {
 
         private int id;
@@ -9,7 +7,7 @@ public class UsuarioDTO {
         private String login;
         private String senha;
         private String perfil;
-        
+
         public int getId() {
             return id;
         }
