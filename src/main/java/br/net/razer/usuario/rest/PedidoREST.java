@@ -19,7 +19,7 @@ import br.net.razer.usuario.model.Produto;
 import br.net.razer.usuario.repository.PedidoRepository;
 import br.net.razer.usuario.repository.ProdutoRepository;
 
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class PedidoREST {
     @Autowired

@@ -20,7 +20,7 @@ import br.net.razer.usuario.dto.ClienteDTO;
 import br.net.razer.usuario.model.Cliente;
 import br.net.razer.usuario.repository.ClienteRepository;
 
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class ClienteREST {
 
@@ -34,8 +34,8 @@ public class ClienteREST {
 
     @GetMapping("/clientes/{id}")
     public ClienteDTO getById(@PathVariable("id") Integer id){
-        List<Cliente> listaCliente = repo.findAll();
-        Cliente cliente = listaCliente.stream().filter(usu -> usu.getId() == id).findAny().orElse(null);
+        Cliente cliente = repo.findById(id).get();
+
         if (cliente != null){
             return mapper.map(cliente, ClienteDTO.class);
         }else{
