@@ -43,7 +43,18 @@ public class ClienteREST {
         }
     }
 
-    @GetMapping("/clientes")
+    @GetMapping("/clientes/cpf/{cpf}")
+    public ClienteDTO getByCpf(@PathVariable("cpf") String cpf){
+        Cliente cliente = repo.findByCpf(cpf);
+
+        if (cliente != null){
+            return mapper.map(cliente, ClienteDTO.class);
+        }else{
+            return null;
+        }
+    }
+
+    @GetMapping("/clientes/")
     public List<ClienteDTO> getAllClients(){
 
         List<Cliente> lista = repo.findAll();     
@@ -51,7 +62,7 @@ public class ClienteREST {
         return lista.stream().map(e -> mapper.map(e,ClienteDTO.class)).collect(Collectors.toList());
     }
 
-    @PostMapping("/clientes")
+    @PostMapping("/clientes/")
     public ClienteDTO inserir(@RequestBody ClienteDTO cliente) {
         // salva a Entidade convertida do DTO
         repo.save(mapper.map(cliente, Cliente.class));      

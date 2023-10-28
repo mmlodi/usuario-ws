@@ -36,7 +36,7 @@ public class ProdutoREST {
         return mapper.map(produto, ProdutoDTO.class);
     }
 
-    @GetMapping("/produtos")
+    @GetMapping("/produtos/")
     public List<ProdutoDTO> getAllProducts(){
 
         List<Produto> lista = repo.findAll();     
@@ -44,7 +44,7 @@ public class ProdutoREST {
         return lista.stream().map(e -> mapper.map(e,ProdutoDTO.class)).collect(Collectors.toList());
     }
 
-    @PostMapping("/produtos")
+    @PostMapping("/produtos/")
     public ProdutoDTO inserir(@RequestBody ProdutoDTO produto) {
         // salva a Entidade convertida do DTO
         repo.save(mapper.map(produto, Produto.class));      

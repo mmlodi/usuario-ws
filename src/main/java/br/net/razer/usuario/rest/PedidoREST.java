@@ -31,7 +31,7 @@ public class PedidoREST {
     @Autowired
     private ProdutoRepository produtoService;
 
-    @GetMapping("/pedidos")
+    @GetMapping("/pedidos/")
     public List<PedidoDTO> listarTodos() {
         List<Pedido> lista = repo.findAll();
 
@@ -45,7 +45,14 @@ public class PedidoREST {
         return lista.stream().map(e -> mapper.map(e,PedidoDTO.class)).collect(Collectors.toList());
     }
 
-    @PostMapping("/pedidos")
+    @GetMapping("/pedidos/produto/{id}")
+    public List<PedidoDTO> listarPorIdProduto(@PathVariable("id") Integer id) {
+        List<Pedido> lista = repo.findByItems_Produto_Id(id);
+
+        return lista.stream().map(e -> mapper.map(e,PedidoDTO.class)).collect(Collectors.toList());
+    }
+
+    @PostMapping("/pedidos/")
     public PedidoDTO inserir(@RequestBody PedidoDTO pedido) {
         Pedido novoPedido = new Pedido();
         novoPedido.setCliente(pedido.getCliente());
