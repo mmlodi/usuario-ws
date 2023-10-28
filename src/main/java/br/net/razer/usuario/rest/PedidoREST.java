@@ -1,5 +1,6 @@
 package br.net.razer.usuario.rest;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,7 @@ import br.net.razer.usuario.model.Produto;
 import br.net.razer.usuario.repository.PedidoRepository;
 import br.net.razer.usuario.repository.ProdutoRepository;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin
 @RestController
 public class PedidoREST {
     @Autowired
@@ -56,7 +57,7 @@ public class PedidoREST {
     public PedidoDTO inserir(@RequestBody PedidoDTO pedido) {
         Pedido novoPedido = new Pedido();
         novoPedido.setCliente(pedido.getCliente());
-        novoPedido.setData(pedido.getData());
+        novoPedido.setData(new Date());
         novoPedido.getItems().addAll(pedido.getItems()
             .stream()
             .map(item -> {

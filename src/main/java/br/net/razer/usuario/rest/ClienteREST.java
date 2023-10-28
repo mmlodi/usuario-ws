@@ -20,7 +20,7 @@ import br.net.razer.usuario.dto.ClienteDTO;
 import br.net.razer.usuario.model.Cliente;
 import br.net.razer.usuario.repository.ClienteRepository;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin
 @RestController
 public class ClienteREST {
 
