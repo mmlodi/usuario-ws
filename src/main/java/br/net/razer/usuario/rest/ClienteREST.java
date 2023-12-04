@@ -65,9 +65,10 @@ public class ClienteREST {
     @PostMapping("/clientes/")
     public ClienteDTO inserir(@RequestBody ClienteDTO cliente) {
         // salva a Entidade convertida do DTO
-        repo.save(mapper.map(cliente, Cliente.class));      
+        Cliente c = mapper.map(cliente, Cliente.class);
+        repo.save(c);      
         // busca o usuário inserido
-        Optional<Cliente> usu = repo.findById(cliente.getId());
+        Optional<Cliente> usu = repo.findById(c.getId());
         // retorna o DTO equivalente à entidade
         return mapper.map(usu, ClienteDTO.class);
     }
