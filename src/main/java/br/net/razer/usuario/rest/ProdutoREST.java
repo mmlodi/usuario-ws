@@ -29,14 +29,14 @@ public class ProdutoREST {
     @Autowired
     private ModelMapper mapper;
 
-    @GetMapping("/produtos/{id}")
+    @GetMapping(value = "/produtos/{id}", produces = "application/json;charset=UTF-8")
     public ProdutoDTO buscarPorId(@PathVariable("id") int id){
         Produto produto = repo.findById(id).get();
 
         return mapper.map(produto, ProdutoDTO.class);
     }
 
-    @GetMapping("/produtos/")
+    @GetMapping(value = "/produtos/", produces = "application/json;charset=UTF-8")
     public List<ProdutoDTO> getAllProducts(){
 
         List<Produto> lista = repo.findAll();     
@@ -44,7 +44,7 @@ public class ProdutoREST {
         return lista.stream().map(e -> mapper.map(e,ProdutoDTO.class)).collect(Collectors.toList());
     }
 
-    @PostMapping("/produtos/")
+    @PostMapping(value = "/produtos/", produces = "application/json;charset=UTF-8")
     public ProdutoDTO inserir(@RequestBody ProdutoDTO produto) {
         // salva a Entidade convertida do DTO
         Produto p = mapper.map(produto, Produto.class);
@@ -56,7 +56,7 @@ public class ProdutoREST {
     }
 
 
-    @PutMapping("/produtos/{id}")
+    @PutMapping(value = "/produtos/{id}", produces = "application/json;charset=UTF-8")
     public ProdutoDTO updateUser(@PathVariable int id,@RequestBody ProdutoDTO produto){
         Optional<Produto> optionalProduto = repo.findById(id);
 
@@ -75,7 +75,7 @@ public class ProdutoREST {
 
     }
 
-    @DeleteMapping("/produtos/{id}")
+    @DeleteMapping(value = "/produtos/{id}", produces = "application/json;charset=UTF-8")
     public ProdutoDTO deletaProduto(@PathVariable Integer id){
         Optional<Produto> optionalProduto = repo.findById(id);
 

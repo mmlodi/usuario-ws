@@ -32,28 +32,28 @@ public class PedidoREST {
     @Autowired
     private ProdutoRepository produtoService;
 
-    @GetMapping("/pedidos/")
+    @GetMapping(value = "/pedidos/", produces = "application/json;charset=UTF-8")
     public List<PedidoDTO> listarTodos() {
         List<Pedido> lista = repo.findAll();
 
         return lista.stream().map(e -> mapper.map(e,PedidoDTO.class)).collect(Collectors.toList());
     }
 
-    @GetMapping("/pedidos/{cpf}")
+    @GetMapping(value = "/pedidos/{cpf}", produces = "application/json;charset=UTF-8")
     public List<PedidoDTO> listarPorCpf(@PathVariable("cpf") String cpf) {
         List<Pedido> lista = repo.findByCliente_Cpf(cpf);
 
         return lista.stream().map(e -> mapper.map(e,PedidoDTO.class)).collect(Collectors.toList());
     }
 
-    @GetMapping("/pedidos/produto/{id}")
+    @GetMapping(value = "/pedidos/produto/{id}", produces = "application/json;charset=UTF-8")
     public List<PedidoDTO> listarPorIdProduto(@PathVariable("id") Integer id) {
         List<Pedido> lista = repo.findByItems_Produto_Id(id);
 
         return lista.stream().map(e -> mapper.map(e,PedidoDTO.class)).collect(Collectors.toList());
     }
 
-    @PostMapping("/pedidos/")
+    @PostMapping(value = "/pedidos/", produces = "application/json;charset=UTF-8")
     public PedidoDTO inserir(@RequestBody PedidoDTO pedido) {
         Pedido novoPedido = new Pedido();
         novoPedido.setCliente(pedido.getCliente());

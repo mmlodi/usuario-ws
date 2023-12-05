@@ -32,7 +32,7 @@ public class ClienteREST {
 
     public static List<Cliente> listaClientes = new ArrayList<>();
 
-    @GetMapping("/clientes/{id}")
+    @GetMapping(value = "/clientes/{id}", produces = "application/json;charset=UTF-8")
     public ClienteDTO getById(@PathVariable("id") Integer id){
         Cliente cliente = repo.findById(id).get();
 
@@ -43,7 +43,7 @@ public class ClienteREST {
         }
     }
 
-    @GetMapping("/clientes/cpf/{cpf}")
+    @GetMapping(value = "/clientes/cpf/{cpf}", produces = "application/json;charset=UTF-8")
     public ClienteDTO getByCpf(@PathVariable("cpf") String cpf){
         Cliente cliente = repo.findByCpf(cpf);
 
@@ -54,7 +54,7 @@ public class ClienteREST {
         }
     }
 
-    @GetMapping("/clientes/")
+    @GetMapping(value = "/clientes/", produces = "application/json;charset=UTF-8")
     public List<ClienteDTO> getAllClients(){
 
         List<Cliente> lista = repo.findAll();     
@@ -62,7 +62,7 @@ public class ClienteREST {
         return lista.stream().map(e -> mapper.map(e,ClienteDTO.class)).collect(Collectors.toList());
     }
 
-    @PostMapping("/clientes/")
+    @PostMapping(value = "/clientes/", produces = "application/json;charset=UTF-8")
     public ClienteDTO inserir(@RequestBody ClienteDTO cliente) {
         // salva a Entidade convertida do DTO
         Cliente c = mapper.map(cliente, Cliente.class);
@@ -73,7 +73,7 @@ public class ClienteREST {
         return mapper.map(usu, ClienteDTO.class);
     }
 
-    @PutMapping("/clientes/{id}")
+    @PutMapping(value = "/clientes/{id}", produces = "application/json;charset=UTF-8")
     public ClienteDTO updateUser(@PathVariable Integer id,@RequestBody ClienteDTO cliente){
         Optional<Cliente> optionalUsuario = repo.findById(id);
 
@@ -93,7 +93,7 @@ public class ClienteREST {
 
     }
 
-    @DeleteMapping("/clientes/{id}")
+    @DeleteMapping(value = "/clientes/{id}", produces = "application/json;charset=UTF-8")
     public ClienteDTO deletaCliente(@PathVariable Integer id){
         Optional<Cliente> optionalCliente = repo.findById(id);
 
